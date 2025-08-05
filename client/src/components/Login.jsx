@@ -1,14 +1,11 @@
+
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, X } from 'lucide-react';
 
 // Mock context hook for demo
 const useAppContext = () => ({
-  setShowLogin: (show) => {
-    if (!show) {
-      alert('Login modal would close now');
-    }
-  },
+  setShowLogin: () => {},
   axios: { post: async () => ({ data: { success: true, token: 'mock-token' } }) },
   setToken: () => {},
   navigate: () => {}
@@ -22,10 +19,6 @@ const Login = () => {
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-
-  const closeModal = () => {
-    setShowLogin(false);
-  };
 
   const onSubmitHandler = async (event) => {
     try {
@@ -110,8 +103,8 @@ const Login = () => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      onClick={closeModal}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-white/30"
+      onClick={() => setShowLogin(false)}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-white to-blue-100"
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
@@ -135,7 +128,7 @@ const Login = () => {
             type="button"
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
-            onClick={closeModal}
+            onClick={() => setShowLogin(false)}
             className="absolute top-4 right-4 p-2 text-blue-600/70 hover:text-blue-600 transition-colors"
           >
             <X size={20} />
@@ -166,12 +159,12 @@ const Login = () => {
                   className="relative"
                 >
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500" size={20} />
                     <input
                       onChange={(e) => setName(e.target.value)}
                       value={name}
                       placeholder="Full Name"
-                      className="w-full pl-11 pr-4 py-3 bg-white/90 border border-blue-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm shadow-sm"
+                      className="w-full pl-11 pr-4 py-3 bg-white/60 border border-blue-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm"
                       type="text"
                       required
                     />
@@ -181,33 +174,33 @@ const Login = () => {
             </AnimatePresence>
 
             <motion.div variants={itemVariants} className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500" size={20} />
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 placeholder="Email Address"
-                className="w-full pl-11 pr-4 py-3 bg-white/90 border border-blue-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm shadow-sm"
+                className="w-full pl-11 pr-4 py-3 bg-white/60 border border-blue-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm"
                 type="email"
                 required
               />
             </motion.div>
 
             <motion.div variants={itemVariants} className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500" size={20} />
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 placeholder="Password"
-                className="w-full pl-11 pr-12 py-3 bg-white/90 border border-blue-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm shadow-sm"
+                className="w-full pl-11 pr-12 py-3 bg-white/60 border border-blue-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all backdrop-blur-sm"
                 type={showPassword ? "text" : "password"}
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-500 hover:text-blue-600 transition-colors"
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </motion.div>
           </div>
