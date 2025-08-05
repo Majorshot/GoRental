@@ -4,6 +4,7 @@ import { assets } from '../assets/assets'
 import CarCard from './CarCard'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
+// eslint-disable-next-line
 import { motion } from 'motion/react'
 
 const FeaturedSection = () => {
