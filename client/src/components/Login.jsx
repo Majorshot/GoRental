@@ -34,13 +34,15 @@ const Login = ({ setShowLogin, axios, setToken, navigate }) => {
   };
 
   const handleClose = () => {
-    console.log('Close button clicked');
     setShowLogin(false);
   };
 
-  const handleBackdropClick = () => {
-    console.log('Backdrop clicked');
-    setShowLogin(false);
+  // MODIFIED: Accept the event 'e' and check the click target
+  const handleBackdropClick = (e) => {
+    // If the element that was clicked is the same as the element the event listener is on
+    if (e.target === e.currentTarget) {
+      setShowLogin(false);
+    }
   };
 
   const containerVariants = {
@@ -102,7 +104,7 @@ const Login = ({ setShowLogin, axios, setToken, navigate }) => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      onClick={handleBackdropClick}
+      onClick={handleBackdropClick} // Pass our new handler here
       className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-white/30"
     >
       {/* Background Pattern */}
@@ -117,7 +119,7 @@ const Login = ({ setShowLogin, axios, setToken, navigate }) => {
         initial="hidden"
         animate="visible"
         onSubmit={onSubmitHandler}
-        onClick={(e) => e.stopPropagation()}
+        // REMOVED: The onClick that stopped propagation is no longer needed
         className="relative w-full max-w-md"
       >
         {/* Glass Card */}
@@ -127,7 +129,7 @@ const Login = ({ setShowLogin, axios, setToken, navigate }) => {
             type="button"
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
-            onClick={handleClose}
+            onClick={handleClose} // This will now work without any issues
             className="absolute top-4 right-4 p-2 text-gray-700 hover:text-gray-900 transition-colors z-10"
           >
             <X size={20} />
