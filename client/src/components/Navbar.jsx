@@ -52,16 +52,16 @@ const Navbar = () => {
         </span>
       </Link>
       <div
-        className={`max-sm:fixed max-sm:h-screen max-sm:w-full max-sm:top-16 max-sm:border-t border-borderColor right-0 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 max-sm:p-4 transition-all duration-300 z-50 bg-white ${
+        className={`max-sm:fixed max-sm:h-screen max-sm:w-full max-sm:top-16 max-sm:border-t border-borderColor right-0 flex flex-col sm:flex-row items-end sm:items-center max-sm:items-end gap-4 sm:gap-8 max-sm:p-4 transition-all duration-300 z-50 bg-white ${
           open ? "max-sm:translate-x-0" : "max-sm:translate-x-full"
         }`}
       >
-        <nav className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-start sm:items-center w-full">
+        <nav className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-end sm:items-center max-sm:items-end w-full">
           {menuLinks.map((link, index) => (
             <Link
               key={index}
               to={link.path}
-              className="px-3 py-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors font-medium"
+              className="px-3 py-1.5 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors font-medium max-sm:text-right"
               onClick={() => setOpen(false)}
             >
               {link.name}
@@ -69,7 +69,7 @@ const Navbar = () => {
           ))}
         </nav>
         {/* BUTTONS: Always inline */}
-        <div className="flex flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
+        <div className="flex flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto max-sm:justify-end">
           <button
             onClick={async () => {
               if (!user) {
