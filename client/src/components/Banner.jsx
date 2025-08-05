@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
 // eslint-disable-next-line
 import { motion } from "motion/react";
 
 const Banner = () => {
   const navigate = useNavigate();
+  const { isOwner, changeRole, user, setShowLogin } = useAppContext();
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -24,12 +26,24 @@ const Banner = () => {
         </p>
 
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-6 py-2 bg-white hover:bg-slate-100 transition-all text-primary rounded-lg text-sm mt-4 cursor-pointer"
-          onClick={() => navigate("/owner")}
+          onClick={() => {
+            if (!user) {
+              if (typeof window !== "undefined" && window.toast) {
+                window.toast.error("Please login");
+              } else {
+                // fallback if toast is not global
+                import("react-hot-toast").then(({ default: toast }) =>
+                  toast.error("Please login")
+                );
+              }
+              if (setShowLogin) setShowLogin(true);
+              return;
+            }
+            isOwner ? navigate("/owner") : changeRole();
+          }}
+          className="px-4 py-1.5 mt-5 rounded-lg bg-white text-primary font-semibold border border-primary hover:bg-primary hover:text-white transition-colors w-full sm:w-auto whitespace-nowrap shadow"
         >
-          List your car
+          {isOwner ? "Dashboard" : "List your car"}
         </motion.button>
       </div>
 

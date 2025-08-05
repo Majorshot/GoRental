@@ -39,7 +39,14 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
       className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 md:px-10 lg:px-20 xl:px-32 py-3 bg-white shadow-lg rounded-b-2xl border-b border-borderColor transition-all"
     >
-      <Link to="/" className="flex items-center gap-2 select-none">
+      <Link
+        to="/"
+        className="flex items-center gap-2 select-none"
+        onClick={() => {
+          // Always scroll to top with smooth animation when clicking Home/logo
+          setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
+        }}
+      >
         <span className="text-2xl font-extrabold text-primary tracking-tight font-[Outfit]">
           GoRental
         </span>
@@ -64,7 +71,26 @@ const Navbar = () => {
         {/* BUTTONS: Always inline */}
         <div className="flex flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
           <button
-            onClick={() => (isOwner ? navigate("/owner") : changeRole())}
+            onClick={async () => {
+              if (!user) {
+                toast.error("Please login");
+                if (setShowLogin) setShowLogin(true);
+                return;
+              }
+              if (isOwner) {
+                navigate("/owner");
+                setTimeout(
+                  () => window.scrollTo({ top: 0, behavior: "smooth" }),
+                  0
+                );
+              } else {
+                await changeRole();
+                setTimeout(
+                  () => window.scrollTo({ top: 0, behavior: "smooth" }),
+                  0
+                );
+              }
+            }}
             className="px-4 py-1.5 rounded-lg bg-primary text-white font-semibold hover:bg-primary-dull transition-colors w-full sm:w-auto whitespace-nowrap"
           >
             {isOwner ? "Dashboard" : "List cars"}
