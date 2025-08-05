@@ -2,13 +2,18 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, X } from 'lucide-react';
 
-// Mock context hook for demo
-const useAppContext = () => ({
-  setShowLogin: () => {},
-  axios: { post: async () => ({ data: { success: true, token: 'mock-token' } }) },
-  setToken: () => {},
-  navigate: () => {}
-});
+// Updated mock context hook with working setShowLogin
+const useAppContext = () => {
+  const [showLogin, setShowLoginState] = React.useState(true);
+  
+  return {
+    setShowLogin: setShowLoginState,
+    axios: { post: async () => ({ data: { success: true, token: 'mock-token' } }) },
+    setToken: () => {},
+    navigate: () => {},
+    showLogin
+  };
+};
 
 const Login = () => {
   const { setShowLogin, axios, setToken, navigate } = useAppContext();
@@ -23,15 +28,14 @@ const Login = () => {
     try {
       event.preventDefault();
       setIsLoading(true);
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       const { data } = await axios.post(`/api/user/${state}`, { name, email, password });
       if (data.success) {
         navigate('/');
         setToken(data.token);
-        // localStorage.setItem('token', data.token); // Removed for Claude.ai compatibility
         setShowLogin(false);
       } else {
         console.error(data.message);
@@ -128,7 +132,7 @@ const Login = () => {
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setShowLogin(false)}
-            className="absolute top-4 right-4 p-2 text-blue-600/70 hover:text-blue-600 transition-colors"
+            className="absolute top-4 right-4 p-2 text-gray-700 hover:text-gray-900 transition-colors"
           >
             <X size={20} />
           </motion.button>
@@ -158,7 +162,7 @@ const Login = () => {
                   className="relative"
                 >
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700" size={18} />
                     <input
                       onChange={(e) => setName(e.target.value)}
                       value={name}
@@ -173,7 +177,7 @@ const Login = () => {
             </AnimatePresence>
 
             <motion.div variants={itemVariants} className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700" size={18} />
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -185,7 +189,7 @@ const Login = () => {
             </motion.div>
 
             <motion.div variants={itemVariants} className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" size={18} />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700" size={18} />
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -197,7 +201,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800 transition-colors"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700 hover:text-gray-900 transition-colors"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
