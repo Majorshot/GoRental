@@ -2,21 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, X } from 'lucide-react';
 
-// Updated mock context hook with working setShowLogin
-const useAppContext = () => {
-  const [showLogin, setShowLoginState] = React.useState(true);
-  
-  return {
-    setShowLogin: setShowLoginState,
-    axios: { post: async () => ({ data: { success: true, token: 'mock-token' } }) },
-    setToken: () => {},
-    navigate: () => {},
-    showLogin
-  };
-};
-
-const Login = () => {
-  const { setShowLogin, axios, setToken, navigate } = useAppContext();
+const Login = ({ setShowLogin, axios, setToken, navigate }) => {
   const [state, setState] = React.useState("login");
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -45,6 +31,16 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClose = () => {
+    console.log('Close button clicked');
+    setShowLogin(false);
+  };
+
+  const handleBackdropClick = () => {
+    console.log('Backdrop clicked');
+    setShowLogin(false);
   };
 
   const containerVariants = {
@@ -106,7 +102,7 @@ const Login = () => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      onClick={() => setShowLogin(false)}
+      onClick={handleBackdropClick}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-white/30"
     >
       {/* Background Pattern */}
@@ -131,8 +127,8 @@ const Login = () => {
             type="button"
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setShowLogin(false)}
-            className="absolute top-4 right-4 p-2 text-gray-700 hover:text-gray-900 transition-colors"
+            onClick={handleClose}
+            className="absolute top-4 right-4 p-2 text-gray-700 hover:text-gray-900 transition-colors z-10"
           >
             <X size={20} />
           </motion.button>
